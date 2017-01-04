@@ -53,13 +53,19 @@ function checkError($fileName,$fileError){
 */
 function uploadFile($fileName,$tmpName){
     $dirName = 'upload';
-    $secondDirName = 'upload/'.date('ymd');
+    $secondDirName = 'upload/'.$_POST['uName'];
+    $thirdDirName = 'upload/'.$_POST['uName'].'/'.date('ymd');
     if(!is_dir($dirName)){//文件夹不存在，就创建该文件夹
         mkdir($dirName);
+    }
+    if(!is_dir($secondDirName)){//文件夹不存在，就创建该文件夹
         mkdir($secondDirName);
     }
+    if(!is_dir($thirdDirName)){//文件夹不存在，就创建该文件夹
+        mkdir($thirdDirName);
+    }
     if(is_uploaded_file($tmpName)){//判断是否为上传文件
-        $uploadedFilePath= $secondDirName.'/'.mt_rand(0,100).$fileName; //为上传的文件进行重命名，避免重复命名导致的文件覆盖
+        $uploadedFilePath= $thirdDirName.'/'.$fileName; //为上传的文件进行重命名，避免重复命名导致的文件覆盖
         if(move_uploaded_file($tmpName,$uploadedFilePath)){
 			require("conn.php");
 			//获取当前用户ID（$rows[0]）
